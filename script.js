@@ -16,12 +16,12 @@ function renderChats() {
   chatWindow.scrollTop = chatWindow.scrollHeight;
 }
 
-renderChats();
-
 function saveChat(role, content) {
   chats.push({ role, content });
   localStorage.setItem("silverChats", JSON.stringify(chats));
 }
+
+renderChats();
 
 sendBtn.addEventListener("click", async () => {
   const prompt = input.value.trim();
@@ -45,9 +45,9 @@ sendBtn.addEventListener("click", async () => {
 
     const data = await res.json();
 
-    let aiMessage = data.text;
+    let aiMessage = data.text ?? "Silver AI returned no text.";
+    aiMessage = String(aiMessage);
 
-    // Texture preview
     if (data.texture) {
       aiMessage += `<br><canvas id="previewCanvas"></canvas>`;
     }
@@ -57,16 +57,18 @@ sendBtn.addEventListener("click", async () => {
 
     if (data.texture) {
       const canvas = document.getElementById("previewCanvas");
-      const ctx = canvas.getContext("2d");
-      const size = data.texture.length;
+      if (canvas) {
+        const ctx = canvas.getContext("2d");
+        const size = data.texture.length;
 
-      canvas.width = size;
-      canvas.height = size;
+        canvas.width = size;
+        canvas.height = size;
 
-      for (let y = 0; y < size; y++) {
-        for (let x = 0; x < size; x++) {
-          ctx.fillStyle = data.texture[y][x];
-          ctx.fillRect(x, y, 1, 1);
+        for (let y = 0; y < size; y++) {
+          for (let x = 0; x < size; x++) {
+            ctx.fillStyle = data.texture[y][x];
+            ctx.fillRect(x, y, 1, 1);
+          }
         }
       }
     }
