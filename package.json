@@ -1,7 +1,6 @@
 {
   "name": "silver-ai-backend",
   "version": "1.0.0",
-  "main": "server.js",
   "type": "module",
   "scripts": {
     "start": "node server.js"
@@ -9,6 +8,6 @@
   "dependencies": {
     "express": "^4.19.0",
     "cors": "^2.8.5",
-    "node-fetch": "^3.3.2"
+    "openai": "^4.0.0"
   }
 }
